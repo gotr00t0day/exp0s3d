@@ -1,7 +1,7 @@
 # exp0s3d
 exp0s3d is a powerful open-source security testing tool designed for penetration testers, security researchers, and bug bounty hunters. This tool combines multiple vulnerability scanners into one efficient package.
 
-🛡️ exp0s3d - Advanced Web Security Testing Tool
+🛡️ Advanced Web Security Testing Tool
 ==================================================
 
 ⚡ Quick Start Guide
