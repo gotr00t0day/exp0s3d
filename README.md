@@ -30,17 +30,17 @@ exp0s3d is a powerful open-source security testing tool designed for penetration
 
 🛠️ Requirements
 -------------
-• Python 3.x
-• Nuclei
-• Required Python packages (see requirements.txt)
+• Python 3.x<br>
+• Nuclei<br>
+• Required Python packages (see requirements.txt)<br>
 
 🎯 Who Is This For?
 ----------------
-• Penetration Testers
-• Security Researchers
-• Bug Bounty Hunters
-• Red Team Members
-• Security Engineers
+• Penetration Testers<br>
+• Security Researchers<br>
+• Bug Bounty Hunters<br>
+• Red Team Members<br>
+• Security Engineers<br>
 
 ⚠️ Disclaimer
 -----------
@@ -49,8 +49,8 @@ This tool is for educational and authorized testing purposes only. Always obtain
 💡 Support
 --------
 If you find this tool useful, please consider:
-• Starring the GitHub repository
-• Subscribing to this channel
-• Sharing with your network
+• Starring the GitHub repository<br>
+• Subscribing to this channel<br>
+• Sharing with your network<br>
 
 ✨ Stay tuned for more tutorials and updates! Don't forget to like and follow! 🔔
