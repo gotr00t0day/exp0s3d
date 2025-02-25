@@ -1,0 +1,5 @@
+"Perform fuzzing on all parameters and HTTP methods using DSL, focusing on detecting Remote Code Execution (Command Injection) vulnerabilities with pre-conditions."
+"Perform fuzzing on all parameters and HTTP methods using DSL, focusing on detecting Remote Code Execution (RCE) vulnerabilities on Linux and Windows."
+"Detect command injection in 'cmd', 'exec', 'ping', 'query', 'shell' parameters"
+"Scan for OS command injection via HTTP headers (X-Forwarded-For, X-Forwarded-Host, User-Agent, Referer)"
+"Identify RCE vulnerabilities in file upload functionalities"

@@ -1,0 +1,7 @@
+"Find web cache poisoning via 'Host", 'X-Forwarded-Host' and'X-Forwarded-For' headers, provide additional vulnerability checking (second/third request)"
+"Detect cache poisoning through 'X-Original-URL' and 'X-Rewrite-URL' headers, provide additional vulnerability checking (second/third request)"
+"Identify cache poisoning by injecting payloads in 'Referer' and 'User-Agent', provide additional vulnerability checking (second/third request)"
+"Scan for cache poisoning via malformed HTTP headers, provide additional vulnerability checking (second/third request)"
+"Detect cache poisoning vulnerabilities on Fastly and Cloudflare, provide additional vulnerability checking (second/third request)"
+"Find misconfigured Varnish caching rules exposing private data, provide additional vulnerability checking (second/third request)"
+"Identify Squid proxy cache poisoning vulnerabilitie, provide additional vulnerability checking (second/third request)"

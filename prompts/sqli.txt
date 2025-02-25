@@ -1,0 +1,8 @@
+"Perform fuzzing on all parameters and HTTP methods using DSL, focusing on detecting SQL Injection vulnerabilities with pre-conditions."
+"Detect SQL error messages indicating SQL injection vulnerabilities"
+"Detect SQL errors in response when injecting common payloads into GET and POST requests"  
+"Find SQL injection in 'id', 'user', 'product', 'category', 'page' parameters"  
+"Scan for blind SQL injection in 's', 'search', 'query', 'sort', 'filter' GET/POST parameters"
+"Scan for time based SQL injection in all parameters" 
+"Identify SQL injection in API endpoints using JSON payloads"  
+"Check for SQL injection via HTTP headers (User-Agent, Referer, X-Forwarded-For, X-Forwarded-Host)" 

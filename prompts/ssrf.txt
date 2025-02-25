@@ -1,0 +1,8 @@
+"Perform fuzzing on all parameters and HTTP methods using DSL, focusing on detecting SSRF vulnerabilities with pre-conditions."
+"Find SSRF vulnerabilities in web applications"
+"Identify SSRF vulnerabilities in query parameters"
+"Identify SSRF vulnerabilities in most common parameters"
+"Find SSRF in 'url', 'link', 'redirect', 'next', 'feed', 'callback' parameters"
+"Detect SSRF by injecting internal IP ranges (127.0.0.1, 169.254.169.254)"
+"Identify SSRF in API requests that fetch external resources"
+"Scan for blind SSRF by injecting webhooks and external DNS resolver payloads"

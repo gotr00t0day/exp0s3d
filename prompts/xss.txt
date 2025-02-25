@@ -1,0 +1,8 @@
+"Perform fuzzing on all parameters and HTTP methods using DSL, focusing on detecting XSS vulnerabilities (Reflected, Stored, and DOM-based) with pre-conditions."
+"Find reflected XSS in 'q', 'search', 's', 'redirect', 'next', 'return', 'url' parameters"
+"Find stored XSS in all parameters"
+"Identify stored XSS in comment fields, usernames, profile descriptions"  
+"Detect DOM-based XSS in JavaScript variables using common sources like location.href"  
+"Scan for XSS vulnerabilities in AJAX endpoints"  
+"Check for JSON-based XSS via API responses"
+"Identify reflected cross-site scripting (XSS) vulnerabilities"

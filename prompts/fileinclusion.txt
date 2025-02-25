@@ -1,0 +1,5 @@
+"Perform fuzzing on all parameters and HTTP methods using DSL, focusing on detecting LFI/RFI vulnerabilities with pre-conditions."
+"Find LFI in 'file', 'path', 'template', 'inc', 'lang', 'page' parameters"
+"Detect RFI by injecting external URLs into 'file' and 'load' parameters"
+"Identify LFI using common payloads (/etc/passwd, ../../etc/passwd, php://filter, php://input)"
+"Check for LFI in error messages exposing full file paths"
