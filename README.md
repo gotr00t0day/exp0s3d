@@ -17,7 +17,7 @@ exp0s3d is a powerful open-source security testing tool designed for penetration
 
 🔥 Key Features
 -------------
-• Low Hanging Fruits Scanner
+• Low Hanging Fruits Scanner<\b>
 • SQL Injection Detection
 • XSS Testing
 • SSRF Scanner
