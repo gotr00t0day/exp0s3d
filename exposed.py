@@ -6,6 +6,7 @@ import os
 import requests
 import subprocess
 import time
+from modules.report_generator import ReportGenerator
 
 
 banner = fr"""
@@ -16,6 +17,7 @@ _/ __ \\  \/  /\____ \/  /_\  \ /  ___/ _(__  <  / __ |
 \  ___/ >    < |  |_> >  \_/   \\___ \ /       \/ /_/ | 
  \___  >__/\_ \|   __/ \_____  /____  >______  /\____ | 
      \/      \/|__|          \/     \/       \/      \/
+                                                {Fore.YELLOW}v.1.1
 
      Author:    c0d3Ninja
      Github:    https://github.com/gotr00t0day
@@ -39,19 +41,29 @@ def target_list(file: str):
 def run_scan_with_progress(input_file: str, payload: str, scan_type: str):
     print(Fore.CYAN + f"\nStarting {scan_type} scan..." + Style.RESET_ALL)
     
-    # Create a progress bar
     with tqdm(total=100, 
              desc="Scanning", 
              bar_format="{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)) as pbar:
-        # Start the scan
         output = scan(f"nuclei -list {input_file} -ai {payload}")
         
-        # Update progress bar (simulated progress)
         for i in range(100):
-            time.sleep(0.1)  # Adjust this value to match your actual scan time
+            time.sleep(0.1)
             pbar.update(1)
-            
-    return output
+    
+    if output:
+        results = parse_nuclei_output(output)
+        report_gen = ReportGenerator()
+        report_gen.generate_report(results, scan_type, ["html", "json", "csv"])
+        return output  # Return output for further use if needed
+    return None
+
+def emails():
+    input_file = input(Fore.WHITE + "Enter the target list file: ")
+    targets = target_list(input_file)
+    payload = payloads("emails")
+    output = run_scan_with_progress(input_file, payload, "Emails")
+    if not output:
+        print(Fore.RED + "No results found")
 
 def low_hanging_fruits():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
@@ -164,16 +176,26 @@ def web_cache_poisoning():
     else:
         parse_nuclei_output(output)
 
+def security_misconfigurations():
+    input_file = input(Fore.WHITE + "Enter the target list file: ")
+    targets = target_list(input_file)
+    payload = payloads("securitymisconfig")
+    output = run_scan_with_progress(input_file, payload, "Security Misconfigurations")
+    if not output:
+        print(Fore.RED + "No results found")
+    else:
+        parse_nuclei_output(output)
+
 while True:
     print(Fore.RED + banner)
-    print (Fore.RED + "[" + Fore.CYAN + "0" + Fore.RED + "]" + Fore.WHITE + "  Low Hanging Fruits")
-    print (Fore.RED + "[" + Fore.CYAN + "1" + Fore.RED + "]" + Fore.WHITE + "  Sensitive Data Exposure")
+    print (Fore.RED + "[" + Fore.CYAN + "0" + Fore.RED + "]" + Fore.WHITE + "  Low Hanging Fruits\t\t\t" + Fore.RED + "[" + Fore.CYAN + "11" + Fore.RED + "]" + Fore.WHITE + " Emails")
+    print (Fore.RED + "[" + Fore.CYAN + "1" + Fore.RED + "]" + Fore.WHITE + "  Sensitive Data Exposure\t\t" + Fore.RED + "[" + Fore.CYAN + "12" + Fore.RED + "]" + Fore.WHITE + " Security Misconfigurations")
     print (Fore.RED + "[" + Fore.CYAN + "2" + Fore.RED + "]" + Fore.WHITE + "  SQL Injection")
     print (Fore.RED + "[" + Fore.CYAN + "3" + Fore.RED + "]" + Fore.WHITE + "  Cross Site Scripting")
     print (Fore.RED + "[" + Fore.CYAN + "4" + Fore.RED + "]" + Fore.WHITE + "  Server Side Request Forgery")
-    print (Fore.RED + "[" + Fore.CYAN + "5" + Fore.RED + "]" + Fore.WHITE + "  Local and Remote File Inclusion")
+    print (Fore.RED + "[" + Fore.CYAN + "5" + Fore.RED + "]" + Fore.WHITE + "  File Inclusion")
     print (Fore.RED + "[" + Fore.CYAN + "6" + Fore.RED + "]" + Fore.WHITE + "  Command Injection")
-    print (Fore.RED + "[" + Fore.CYAN + "7" + Fore.RED + "]" + Fore.WHITE + "  XXE")
+    print (Fore.RED + "[" + Fore.CYAN + "7" + Fore.RED + "]" + Fore.WHITE + "  XML External Entity")
     print (Fore.RED + "[" + Fore.CYAN + "8" + Fore.RED + "]" + Fore.WHITE + "  Host Header Injection")
     print (Fore.RED + "[" + Fore.CYAN + "9" + Fore.RED + "]" + Fore.WHITE + "  Cloud Security Issues")
     print (Fore.RED + "[" + Fore.CYAN + "10" + Fore.RED + "]" + Fore.WHITE + " Web Cache Poisoning")
@@ -183,41 +205,35 @@ while True:
     prompt = input(Fore.WHITE + "exp0s3d~" +  Fore.WHITE + "# ")
 
     if prompt == "0":
-        print(Fore.WHITE + "Running Low Hanging Fruits.. \n")
         low_hanging_fruits()
     elif prompt == "1":
-        print(Fore.WHITE + "Running Sensitive Data Exposure.. \n")
         sensitive_data_exposure()
     elif prompt == "2":
-        print(Fore.WHITE + "Running SQL Injection.. \n")
         sql_injection()
     elif prompt == "3":
-        print(Fore.WHITE + "Running Cross Site Scripting.. \n")
         cross_site_scripting()
     elif prompt == "4":
-        print(Fore.WHITE + "Running Server Side Request Forgery.. \n")
         server_side_request_forgery()
     elif prompt == "5":
-        print(Fore.WHITE + "Running Local and Remote File Inclusion.. \n")
         local_and_remote_file_inclusion()
     elif prompt == "6":
-        print(Fore.WHITE + "Running Command Injection.. \n")
         command_injection()
     elif prompt == "7":
-        print(Fore.WHITE + "Running XXE.. \n")
         xxe()
     elif prompt == "8":
-        print(Fore.WHITE + "Running Host Header Injection.. \n")
         host_header_injection()
     elif prompt == "9":
-        print(Fore.WHITE + "Running Cloud Security Issues.. \n")
         cloud_security_issues()
     elif prompt == "10":
-        print(Fore.WHITE + "Running Web Cache Poisoning.. \n")
         web_cache_poisoning()
+    elif prompt == "11":
+        emails()
+    elif prompt == "12":
+        security_misconfigurations()
     elif prompt == "X" or prompt == "x" or prompt == "exit" or prompt == "quit":
         break
     else:
         print(Fore.RED + "Invalid option")
+        
         
         
