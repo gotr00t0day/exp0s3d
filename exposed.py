@@ -17,7 +17,7 @@ _/ __ \\  \/  /\____ \/  /_\  \ /  ___/ _(__  <  / __ |
 \  ___/ >    < |  |_> >  \_/   \\___ \ /       \/ /_/ | 
  \___  >__/\_ \|   __/ \_____  /____  >______  /\____ | 
      \/      \/|__|          \/     \/       \/      \/
-                                                {Fore.YELLOW}v.1.1
+                                                {Fore.YELLOW}v1.2
 
      Author:    c0d3Ninja
      Github:    https://github.com/gotr00t0day
@@ -186,11 +186,51 @@ def security_misconfigurations():
     else:
         parse_nuclei_output(output)
 
+def hardcoded_credentials():
+    input_file = input(Fore.WHITE + "Enter the target list file: ")
+    targets = target_list(input_file)
+    payload = payloads("hardcodedcredentials")
+    output = run_scan_with_progress(input_file, payload, "Hardcoded Credentials")
+    if not output:
+        print(Fore.RED + "No results found")
+    else:
+        parse_nuclei_output(output)
+
+def check_for_updates():
+    try:
+        print(Fore.CYAN + "\nChecking for updates..." + Style.RESET_ALL)
+        # Get the latest commit information instead of releases
+        response = requests.get("https://api.github.com/repos/gotr00t0day/exp0s3d/commits/main")
+        if response.status_code == 200:
+            latest_commit = response.json()['sha'][:7]  # Get first 7 chars of commit hash
+            
+            # Check if there are local changes
+            local_changes = subprocess.run(
+                ["git", "rev-parse", "HEAD"], 
+                capture_output=True, 
+                text=True
+            ).stdout.strip()[:7]
+            
+            if latest_commit != local_changes:
+                print(Fore.YELLOW + f"\nNew updates are available!")
+                update = input(Fore.WHITE + "Would you like to update? (y/n): ").lower()
+                
+                if update == 'y':
+                    print(Fore.CYAN + "\nUpdating exp0s3d..." + Style.RESET_ALL)
+                    subprocess.run(["git", "pull", "origin", "main"], check=True)
+                    print(Fore.GREEN + "\nUpdate successful! Please restart exp0s3d." + Style.RESET_ALL)
+                    exit(0)
+            else:
+                print(Fore.GREEN + "\nYou're running the latest version!" + Style.RESET_ALL)
+    except Exception as e:
+        print(Fore.RED + f"\nError checking for updates: {str(e)}" + Style.RESET_ALL)
+
 while True:
     print(Fore.RED + banner)
+    print (Fore.RED + "[" + Fore.CYAN + "*" + Fore.RED + "]" + Fore.WHITE + "  Check for Updates\n")
     print (Fore.RED + "[" + Fore.CYAN + "0" + Fore.RED + "]" + Fore.WHITE + "  Low Hanging Fruits\t\t\t" + Fore.RED + "[" + Fore.CYAN + "11" + Fore.RED + "]" + Fore.WHITE + " Emails")
     print (Fore.RED + "[" + Fore.CYAN + "1" + Fore.RED + "]" + Fore.WHITE + "  Sensitive Data Exposure\t\t" + Fore.RED + "[" + Fore.CYAN + "12" + Fore.RED + "]" + Fore.WHITE + " Security Misconfigurations")
-    print (Fore.RED + "[" + Fore.CYAN + "2" + Fore.RED + "]" + Fore.WHITE + "  SQL Injection")
+    print (Fore.RED + "[" + Fore.CYAN + "2" + Fore.RED + "]" + Fore.WHITE + "  SQL Injection\t\t\t" + Fore.RED + "[" + Fore.CYAN + "13" + Fore.RED + "]" + Fore.WHITE + " Hardcoded Credentials")
     print (Fore.RED + "[" + Fore.CYAN + "3" + Fore.RED + "]" + Fore.WHITE + "  Cross Site Scripting")
     print (Fore.RED + "[" + Fore.CYAN + "4" + Fore.RED + "]" + Fore.WHITE + "  Server Side Request Forgery")
     print (Fore.RED + "[" + Fore.CYAN + "5" + Fore.RED + "]" + Fore.WHITE + "  File Inclusion")
@@ -199,6 +239,7 @@ while True:
     print (Fore.RED + "[" + Fore.CYAN + "8" + Fore.RED + "]" + Fore.WHITE + "  Host Header Injection")
     print (Fore.RED + "[" + Fore.CYAN + "9" + Fore.RED + "]" + Fore.WHITE + "  Cloud Security Issues")
     print (Fore.RED + "[" + Fore.CYAN + "10" + Fore.RED + "]" + Fore.WHITE + " Web Cache Poisoning")
+
     print (Fore.RED + "[" + Fore.CYAN + "X" + Fore.RED + "]" + Fore.WHITE + "  Exit")
     print ("\n")
 
@@ -230,6 +271,10 @@ while True:
         emails()
     elif prompt == "12":
         security_misconfigurations()
+    elif prompt == "13":
+        hardcoded_credentials()
+    elif prompt == "*":
+        check_for_updates()
     elif prompt == "X" or prompt == "x" or prompt == "exit" or prompt == "quit":
         break
     else:
