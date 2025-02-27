@@ -1,1 +1,1 @@
-""Extract email addresses from web pages"
+"Extract email addresses from web pages"
