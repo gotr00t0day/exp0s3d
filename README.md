@@ -36,6 +36,12 @@ exp0s3d is a powerful open-source security testing tool designed for penetration
 • Nuclei<br>
 • Required Python packages (see requirements.txt)<br>
 
+🔑 Nuclei AI Authentication
+--------------------
+• First, visit https://cloud.projectdiscovery.io to create a free PDCP API key.
+• Run the nuclei -auth command in your terminal.
+• When prompted, enter the API key you obtained from the PDCP website.
+
 🎯 Who Is This For?
 ----------------
 • Penetration Testers<br>
