@@ -34,9 +34,13 @@ def payloads(prompt: str):
         return f'"{payload}"'
 
 def target_list(file: str):
-    with open(file, "r") as file:
-        targets = [x.strip() for x in file.readlines()]
-    return targets
+    try:
+        with open(file, "r") as file:
+            targets = [x.strip() for x in file.readlines()]
+        return targets
+    except Exception as e:
+        print(Fore.RED + f"Error reading target list file: {str(e)}")
+        start()
 
 def run_scan_with_progress(input_file: str, payload: str, scan_type: str):
     print(Fore.CYAN + f"\nStarting {scan_type} scan..." + Style.RESET_ALL)
@@ -225,60 +229,63 @@ def check_for_updates():
     except Exception as e:
         print(Fore.RED + f"\nError checking for updates: {str(e)}" + Style.RESET_ALL)
 
-while True:
-    print(Fore.RED + banner)
-    print (Fore.RED + "[" + Fore.CYAN + "*" + Fore.RED + "]" + Fore.WHITE + "  Check for Updates\n")
-    print (Fore.RED + "[" + Fore.CYAN + "0" + Fore.RED + "]" + Fore.WHITE + "  Low Hanging Fruits\t\t\t" + Fore.RED + "[" + Fore.CYAN + "11" + Fore.RED + "]" + Fore.WHITE + " Emails")
-    print (Fore.RED + "[" + Fore.CYAN + "1" + Fore.RED + "]" + Fore.WHITE + "  Sensitive Data Exposure\t\t" + Fore.RED + "[" + Fore.CYAN + "12" + Fore.RED + "]" + Fore.WHITE + " Security Misconfigurations")
-    print (Fore.RED + "[" + Fore.CYAN + "2" + Fore.RED + "]" + Fore.WHITE + "  SQL Injection\t\t\t" + Fore.RED + "[" + Fore.CYAN + "13" + Fore.RED + "]" + Fore.WHITE + " Hardcoded Credentials")
-    print (Fore.RED + "[" + Fore.CYAN + "3" + Fore.RED + "]" + Fore.WHITE + "  Cross Site Scripting")
-    print (Fore.RED + "[" + Fore.CYAN + "4" + Fore.RED + "]" + Fore.WHITE + "  Server Side Request Forgery")
-    print (Fore.RED + "[" + Fore.CYAN + "5" + Fore.RED + "]" + Fore.WHITE + "  File Inclusion")
-    print (Fore.RED + "[" + Fore.CYAN + "6" + Fore.RED + "]" + Fore.WHITE + "  Command Injection")
-    print (Fore.RED + "[" + Fore.CYAN + "7" + Fore.RED + "]" + Fore.WHITE + "  XML External Entity")
-    print (Fore.RED + "[" + Fore.CYAN + "8" + Fore.RED + "]" + Fore.WHITE + "  Host Header Injection")
-    print (Fore.RED + "[" + Fore.CYAN + "9" + Fore.RED + "]" + Fore.WHITE + "  Cloud Security Issues")
-    print (Fore.RED + "[" + Fore.CYAN + "10" + Fore.RED + "]" + Fore.WHITE + " Web Cache Poisoning")
+def start():
+    while True:
+        print(Fore.RED + banner)
+        print (Fore.RED + "[" + Fore.CYAN + "*" + Fore.RED + "]" + Fore.WHITE + "  Check for Updates\n")
+        print (Fore.RED + "[" + Fore.CYAN + "0" + Fore.RED + "]" + Fore.WHITE + "  Low Hanging Fruits\t\t\t" + Fore.RED + "[" + Fore.CYAN + "11" + Fore.RED + "]" + Fore.WHITE + " Emails")
+        print (Fore.RED + "[" + Fore.CYAN + "1" + Fore.RED + "]" + Fore.WHITE + "  Sensitive Data Exposure\t\t" + Fore.RED + "[" + Fore.CYAN + "12" + Fore.RED + "]" + Fore.WHITE + " Security Misconfigurations")
+        print (Fore.RED + "[" + Fore.CYAN + "2" + Fore.RED + "]" + Fore.WHITE + "  SQL Injection\t\t\t" + Fore.RED + "[" + Fore.CYAN + "13" + Fore.RED + "]" + Fore.WHITE + " Hardcoded Credentials")
+        print (Fore.RED + "[" + Fore.CYAN + "3" + Fore.RED + "]" + Fore.WHITE + "  Cross Site Scripting")
+        print (Fore.RED + "[" + Fore.CYAN + "4" + Fore.RED + "]" + Fore.WHITE + "  Server Side Request Forgery")
+        print (Fore.RED + "[" + Fore.CYAN + "5" + Fore.RED + "]" + Fore.WHITE + "  File Inclusion")
+        print (Fore.RED + "[" + Fore.CYAN + "6" + Fore.RED + "]" + Fore.WHITE + "  Command Injection")
+        print (Fore.RED + "[" + Fore.CYAN + "7" + Fore.RED + "]" + Fore.WHITE + "  XML External Entity")
+        print (Fore.RED + "[" + Fore.CYAN + "8" + Fore.RED + "]" + Fore.WHITE + "  Host Header Injection")
+        print (Fore.RED + "[" + Fore.CYAN + "9" + Fore.RED + "]" + Fore.WHITE + "  Cloud Security Issues")
+        print (Fore.RED + "[" + Fore.CYAN + "10" + Fore.RED + "]" + Fore.WHITE + " Web Cache Poisoning")
 
-    print (Fore.RED + "[" + Fore.CYAN + "X" + Fore.RED + "]" + Fore.WHITE + "  Exit")
-    print ("\n")
+        print (Fore.RED + "[" + Fore.CYAN + "X" + Fore.RED + "]" + Fore.WHITE + "  Exit")
+        print ("\n")
 
-    prompt = input(Fore.WHITE + "exp0s3d~" +  Fore.WHITE + "# ")
+        prompt = input(Fore.WHITE + "exp0s3d~" +  Fore.WHITE + "# ")
 
-    if prompt == "0":
-        low_hanging_fruits()
-    elif prompt == "1":
-        sensitive_data_exposure()
-    elif prompt == "2":
-        sql_injection()
-    elif prompt == "3":
-        cross_site_scripting()
-    elif prompt == "4":
-        server_side_request_forgery()
-    elif prompt == "5":
-        local_and_remote_file_inclusion()
-    elif prompt == "6":
-        command_injection()
-    elif prompt == "7":
-        xxe()
-    elif prompt == "8":
-        host_header_injection()
-    elif prompt == "9":
-        cloud_security_issues()
-    elif prompt == "10":
-        web_cache_poisoning()
-    elif prompt == "11":
-        emails()
-    elif prompt == "12":
-        security_misconfigurations()
-    elif prompt == "13":
-        hardcoded_credentials()
-    elif prompt == "*":
-        check_for_updates()
-    elif prompt == "X" or prompt == "x" or prompt == "exit" or prompt == "quit":
-        break
-    else:
-        print(Fore.RED + "Invalid option")
-        
+        if prompt == "0":
+            low_hanging_fruits()
+        elif prompt == "1":
+            sensitive_data_exposure()
+        elif prompt == "2":
+            sql_injection()
+        elif prompt == "3":
+            cross_site_scripting()
+        elif prompt == "4":
+            server_side_request_forgery()
+        elif prompt == "5":
+            local_and_remote_file_inclusion()
+        elif prompt == "6":
+            command_injection()
+        elif prompt == "7":
+            xxe()
+        elif prompt == "8":
+            host_header_injection()
+        elif prompt == "9":
+            cloud_security_issues()
+        elif prompt == "10":
+            web_cache_poisoning()
+        elif prompt == "11":
+            emails()
+        elif prompt == "12":
+            security_misconfigurations()
+        elif prompt == "13":
+            hardcoded_credentials()
+        elif prompt == "*":
+            check_for_updates()
+        elif prompt == "X" or prompt == "x" or prompt == "exit" or prompt == "quit":
+            break
+        else:
+            print(Fore.RED + "Invalid option")
+
+if __name__ == "__main__":
+    start()
         
         
