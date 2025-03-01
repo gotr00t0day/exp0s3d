@@ -1,1 +1,6 @@
 "Extract email addresses from web pages"
+"Find exposed email addresses in source code and configuration files."
+"Identify email addresses used in development or testing."
+"Search for email addresses in error messages or logs."
+"Look for email patterns in API responses."
+"Detect email addresses in HTML comments or metadata."

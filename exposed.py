@@ -29,8 +29,10 @@ _/ __ \\  \/  /\____ \/  /_\  \ /  ___/ _(__  <  / __ |
 def payloads(prompt: str):
     location = os.path.join(os.path.dirname(__file__), "prompts", f"{prompt}.txt")
     with open(location, "r") as file:
-        # Take the first prompt from the file and properly escape it
-        payload = file.readline().strip().replace('"', '\\"')
+        # Read all prompts and combine them into a single string
+        prompts = [line.strip() for line in file.readlines() if line.strip()]
+        # Join all prompts with a newline and escape quotes
+        payload = "\n".join(prompts).replace('"', '\\"')
         return f'"{payload}"'
 
 def target_list(file: str):
