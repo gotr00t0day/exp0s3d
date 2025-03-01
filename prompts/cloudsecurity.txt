@@ -15,3 +15,4 @@
 "Find exposed cloud management APIs."
 "Look for misconfigured cloud security groups."
 "Test for cloud service enumeration."
+"Find exposed cloud storage buckets."

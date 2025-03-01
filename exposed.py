@@ -29,9 +29,8 @@ _/ __ \\  \/  /\____ \/  /_\  \ /  ___/ _(__  <  / __ |
 def payloads(prompt: str):
     location = os.path.join(os.path.dirname(__file__), "prompts", f"{prompt}.txt")
     with open(location, "r") as file:
-        # Join all lines with newlines and escape quotes
-        payload = file.read().strip().replace('"', '\\"')
-        # Wrap the entire payload in quotes to pass as a single argument
+        # Take the first prompt from the file and properly escape it
+        payload = file.readline().strip().replace('"', '\\"')
         return f'"{payload}"'
 
 def target_list(file: str):
@@ -49,7 +48,7 @@ def run_scan_with_progress(input_file: str, payload: str, scan_type: str):
     with tqdm(total=100, 
              desc="Scanning", 
              bar_format="{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)) as pbar:
-        output = scan(f"nuclei -list {input_file} -ai {payload}")
+        output = scan(f"nuclei -list {input_file} -ai {payload} -silent")
         
         for i in range(100):
             time.sleep(0.1)
@@ -230,6 +229,46 @@ def check_for_updates():
     except Exception as e:
         print(Fore.RED + f"\nError checking for updates: {str(e)}" + Style.RESET_ALL)
 
+def deserialization():
+    input_file = input(Fore.WHITE + "Enter the target list file: ")
+    targets = target_list(input_file)
+    payload = payloads("deserialization")
+    output = run_scan_with_progress(input_file, payload, "Deserialization")
+    if not output:
+        print(Fore.RED + "No results found")
+    else:
+        parse_nuclei_output(output)
+
+def idor():
+    input_file = input(Fore.WHITE + "Enter the target list file: ")
+    targets = target_list(input_file)
+    payload = payloads("idor")
+    output = run_scan_with_progress(input_file, payload, "IDOR")
+    if not output:
+        print(Fore.RED + "No results found")
+    else:
+        parse_nuclei_output(output)
+
+def race_condition():
+    input_file = input(Fore.WHITE + "Enter the target list file: ")
+    targets = target_list(input_file)
+    payload = payloads("racecondition")
+    output = run_scan_with_progress(input_file, payload, "Race Condition")
+    if not output:
+        print(Fore.RED + "No results found")
+    else:
+        parse_nuclei_output(output)
+
+def websocket():
+    input_file = input(Fore.WHITE + "Enter the target list file: ")
+    targets = target_list(input_file)
+    payload = payloads("websocket")
+    output = run_scan_with_progress(input_file, payload, "WebSocket")
+    if not output:
+        print(Fore.RED + "No results found")
+    else:
+        parse_nuclei_output(output)
+
 def start():
     while True:
         print(Fore.RED + banner)
@@ -237,10 +276,10 @@ def start():
         print (Fore.RED + "[" + Fore.CYAN + "0" + Fore.RED + "]" + Fore.WHITE + "  Low Hanging Fruits\t\t\t" + Fore.RED + "[" + Fore.CYAN + "11" + Fore.RED + "]" + Fore.WHITE + " Emails")
         print (Fore.RED + "[" + Fore.CYAN + "1" + Fore.RED + "]" + Fore.WHITE + "  Sensitive Data Exposure\t\t" + Fore.RED + "[" + Fore.CYAN + "12" + Fore.RED + "]" + Fore.WHITE + " Security Misconfigurations")
         print (Fore.RED + "[" + Fore.CYAN + "2" + Fore.RED + "]" + Fore.WHITE + "  SQL Injection\t\t\t" + Fore.RED + "[" + Fore.CYAN + "13" + Fore.RED + "]" + Fore.WHITE + " Hardcoded Credentials")
-        print (Fore.RED + "[" + Fore.CYAN + "3" + Fore.RED + "]" + Fore.WHITE + "  Cross Site Scripting")
-        print (Fore.RED + "[" + Fore.CYAN + "4" + Fore.RED + "]" + Fore.WHITE + "  Server Side Request Forgery")
-        print (Fore.RED + "[" + Fore.CYAN + "5" + Fore.RED + "]" + Fore.WHITE + "  File Inclusion")
-        print (Fore.RED + "[" + Fore.CYAN + "6" + Fore.RED + "]" + Fore.WHITE + "  Command Injection")
+        print (Fore.RED + "[" + Fore.CYAN + "3" + Fore.RED + "]" + Fore.WHITE + "  Cross Site Scripting\t\t" + Fore.RED + "[" + Fore.CYAN + "14" + Fore.RED + "]" + Fore.WHITE + " Deserialization")
+        print (Fore.RED + "[" + Fore.CYAN + "4" + Fore.RED + "]" + Fore.WHITE + "  Server Side Request Forgery\t" + Fore.RED + "[" + Fore.CYAN + "15" + Fore.RED + "]" + Fore.WHITE + " WebSocket")
+        print (Fore.RED + "[" + Fore.CYAN + "5" + Fore.RED + "]" + Fore.WHITE + "  File Inclusion\t\t\t" + Fore.RED + "[" + Fore.CYAN + "16" + Fore.RED + "]" + Fore.WHITE + " IDOR")
+        print (Fore.RED + "[" + Fore.CYAN + "6" + Fore.RED + "]" + Fore.WHITE + "  Command Injection\t\t\t" + Fore.RED + "[" + Fore.CYAN + "17" + Fore.RED + "]" + Fore.WHITE + " Race Condition")
         print (Fore.RED + "[" + Fore.CYAN + "7" + Fore.RED + "]" + Fore.WHITE + "  XML External Entity")
         print (Fore.RED + "[" + Fore.CYAN + "8" + Fore.RED + "]" + Fore.WHITE + "  Host Header Injection")
         print (Fore.RED + "[" + Fore.CYAN + "9" + Fore.RED + "]" + Fore.WHITE + "  Cloud Security Issues")
@@ -279,6 +318,14 @@ def start():
             security_misconfigurations()
         elif prompt == "13":
             hardcoded_credentials()
+        elif prompt == "14":
+            deserialization()
+        elif prompt == "15":
+            idor()
+        elif prompt == "16":
+            race_condition()
+        elif prompt == "17":
+            websocket()
         elif prompt == "*":
             check_for_updates()
         elif prompt == "X" or prompt == "x" or prompt == "exit" or prompt == "quit":
