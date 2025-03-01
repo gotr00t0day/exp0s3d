@@ -1,6 +1,6 @@
 “Find misconfigured cloud storage buckets, containers, or repositories that expose sensitive data. Check for public S3 buckets, Azure blobs, Google Cloud Storage, and similar services with improper access controls.”
 “Scan for applications running with default credentials, focusing on common admin/admin, admin/password combinations, and vendor-specific default passwords. Check authentication endpoints and admin interfaces.”
-“Identify web applications exposing admin panels, login pages, or administrative interfaces without proper authentication. Look for common paths like /admin, /administrator, /login, /wp-admin, and check if they are accessible without credentials.”
+“Identify web applications exposing admin panels, login pages, or administrative interfaces without proper authentication. Check if they are accessible without credentials.”
 "Identify exposed configuration files, environment files, backup files, and sensitive directories. Look for .env files, config.php, web.config, .git folders, and similar sensitive files that might expose system information or credentials."
 "Identify server misconfigurations including directory listing enabled, default server pages, unnecessary services running, outdated server versions, and insecure HTTP methods enabled. Check for exposed server status pages, phpinfo files, and server-status endpoints."
 "Check for exposed server status pages, phpinfo files, and server-status endpoints."

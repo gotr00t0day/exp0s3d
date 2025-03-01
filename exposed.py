@@ -7,6 +7,7 @@ import requests
 import subprocess
 import time
 from modules.report_generator import ReportGenerator
+from packaging import version
 
 
 banner = fr"""
