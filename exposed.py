@@ -323,11 +323,11 @@ def start():
         elif prompt == "14":
             deserialization()
         elif prompt == "15":
-            idor()
-        elif prompt == "16":
-            race_condition()
-        elif prompt == "17":
             websocket()
+        elif prompt == "16":
+            idor()  
+        elif prompt == "17":
+            race_condition()
         elif prompt == "*":
             check_for_updates()
         elif prompt == "X" or prompt == "x" or prompt == "exit" or prompt == "quit":
