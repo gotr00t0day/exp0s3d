@@ -6,8 +6,10 @@ import os
 import requests
 import subprocess
 import time
+import glob
 from modules.report_generator import ReportGenerator
 from packaging import version
+from datetime import datetime
 
 
 banner = fr"""
@@ -18,7 +20,7 @@ _/ __ \\  \/  /\____ \/  /_\  \ /  ___/ _(__  <  / __ |
 \  ___/ >    < |  |_> >  \_/   \\___ \ /       \/ /_/ | 
  \___  >__/\_ \|   __/ \_____  /____  >______  /\____ | 
      \/      \/|__|          \/     \/       \/      \/
-                                                {Fore.YELLOW}v1.2
+                                                {Fore.YELLOW}v1.3
 
      Author:    c0d3Ninja
      Github:    https://github.com/gotr00t0day
@@ -37,7 +39,9 @@ def payloads(prompt: str):
 
 def target_list(file: str):
     try:
-        with open(file, "r") as file:
+        # Expand the tilde to the user's home directory
+        expanded_path = os.path.expanduser(file)
+        with open(expanded_path, "r") as file:
             targets = [x.strip() for x in file.readlines()]
         return targets
     except Exception as e:
@@ -271,6 +275,27 @@ def websocket():
     else:
         parse_nuclei_output(output)
 
+def scan_all():
+    input_file = input(Fore.WHITE + "Enter the target list file: ")
+    targets = target_list(input_file)
+    payload = payloads("all")
+    output = run_scan_with_progress(input_file, payload, "All")
+    if not output:
+        print(Fore.RED + "No results found")
+    else:
+        parse_nuclei_output(output)
+
+def scan_all2():
+    input_file = input(Fore.WHITE + "Enter the target list file: ")
+    targets = target_list(input_file)
+    for file in glob.glob("prompts/*.txt"):
+        payload = payloads(file.split("/")[-1].split(".")[0])
+        output = run_scan_with_progress(input_file, payload, file.split("/")[-1].split(".")[0])
+        if not output:
+            print(Fore.RED + "No results found")
+        else:
+            parse_nuclei_output(output)
+
 def start():
     while True:
         print(Fore.RED + banner)
@@ -282,7 +307,7 @@ def start():
         print (Fore.RED + "[" + Fore.CYAN + "4" + Fore.RED + "]" + Fore.WHITE + "  Server Side Request Forgery\t" + Fore.RED + "[" + Fore.CYAN + "15" + Fore.RED + "]" + Fore.WHITE + " WebSocket")
         print (Fore.RED + "[" + Fore.CYAN + "5" + Fore.RED + "]" + Fore.WHITE + "  File Inclusion\t\t\t" + Fore.RED + "[" + Fore.CYAN + "16" + Fore.RED + "]" + Fore.WHITE + " IDOR")
         print (Fore.RED + "[" + Fore.CYAN + "6" + Fore.RED + "]" + Fore.WHITE + "  Command Injection\t\t\t" + Fore.RED + "[" + Fore.CYAN + "17" + Fore.RED + "]" + Fore.WHITE + " Race Condition")
-        print (Fore.RED + "[" + Fore.CYAN + "7" + Fore.RED + "]" + Fore.WHITE + "  XML External Entity")
+        print (Fore.RED + "[" + Fore.CYAN + "7" + Fore.RED + "]" + Fore.WHITE + "  XML External Entity\t\t" + Fore.RED + "[" + Fore.CYAN + "18" + Fore.RED + "]" + Fore.WHITE + " Scan All")
         print (Fore.RED + "[" + Fore.CYAN + "8" + Fore.RED + "]" + Fore.WHITE + "  Host Header Injection")
         print (Fore.RED + "[" + Fore.CYAN + "9" + Fore.RED + "]" + Fore.WHITE + "  Cloud Security Issues")
         print (Fore.RED + "[" + Fore.CYAN + "10" + Fore.RED + "]" + Fore.WHITE + " Web Cache Poisoning")
@@ -328,6 +353,8 @@ def start():
             idor()  
         elif prompt == "17":
             race_condition()
+        elif prompt == "18":
+            scan_all2()
         elif prompt == "*":
             check_for_updates()
         elif prompt == "X" or prompt == "x" or prompt == "exit" or prompt == "quit":
