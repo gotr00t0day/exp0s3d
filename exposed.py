@@ -28,6 +28,7 @@ _/ __ \\  \/  /\____ \/  /_\  \ /  ___/ _(__  <  / __ |
 
 """
 
+
 def payloads(prompt: str):
     location = os.path.join(os.path.dirname(__file__), "prompts", f"{prompt}.txt")
     with open(location, "r") as file:
