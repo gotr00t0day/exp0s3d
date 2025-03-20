@@ -42,12 +42,22 @@ def target_list(file: str):
     try:
         # Expand the tilde to the user's home directory
         expanded_path = os.path.expanduser(file)
-        with open(expanded_path, "r") as file:
+        # Convert to absolute path
+        abs_path = os.path.abspath(expanded_path)
+        
+        print(Fore.CYAN + f"Attempting to read file from: {abs_path}" + Style.RESET_ALL)
+        
+        if not os.path.exists(abs_path):
+            print(Fore.RED + f"File not found: {abs_path}")
+            print(Fore.YELLOW + "Please provide the full path to the file or check if the file exists.")
+            return None
+            
+        with open(abs_path, "r") as file:
             targets = [x.strip() for x in file.readlines()]
         return targets
     except Exception as e:
         print(Fore.RED + f"Error reading target list file: {str(e)}")
-        start()
+        return None
 
 def run_scan_with_progress(input_file: str, payload: str, scan_type: str):
     print(Fore.CYAN + f"\nStarting {scan_type} scan..." + Style.RESET_ALL)
@@ -71,6 +81,8 @@ def run_scan_with_progress(input_file: str, payload: str, scan_type: str):
 def emails():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("emails")
     output = run_scan_with_progress(input_file, payload, "Emails")
     if not output:
@@ -79,6 +91,8 @@ def emails():
 def low_hanging_fruits():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("lowhangingfruits")
     output = run_scan_with_progress(input_file, payload, "Low Hanging Fruits")
     if not output:
@@ -90,6 +104,8 @@ def low_hanging_fruits():
 def sensitive_data_exposure():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("sensitivedataexposure")
     output = run_scan_with_progress(input_file, payload, "Sensitive Data Exposure")
     if not output:
@@ -100,6 +116,8 @@ def sensitive_data_exposure():
 def sql_injection():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("sqli")
     output = run_scan_with_progress(input_file, payload, "SQL Injection")
     if not output:
@@ -110,6 +128,8 @@ def sql_injection():
 def cross_site_scripting():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("xss")
     output = run_scan_with_progress(input_file, payload, "Cross Site Scripting")
     if not output:
@@ -120,6 +140,8 @@ def cross_site_scripting():
 def server_side_request_forgery():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("ssrf")
     output = run_scan_with_progress(input_file, payload, "Server Side Request Forgery")
     if not output:
@@ -130,6 +152,8 @@ def server_side_request_forgery():
 def local_and_remote_file_inclusion():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("fileinclusion")
     output = run_scan_with_progress(input_file, payload, "Local and Remote File Inclusion")
     if not output:
@@ -140,6 +164,8 @@ def local_and_remote_file_inclusion():
 def command_injection():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("commandinjection")
     output = run_scan_with_progress(input_file, payload, "Command Injection")
     if not output:
@@ -150,6 +176,8 @@ def command_injection():
 def xxe():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("xxe")
     output = run_scan_with_progress(input_file, payload, "XXE")
     if not output:
@@ -160,6 +188,8 @@ def xxe():
 def host_header_injection():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("hostheaderinjection")
     output = run_scan_with_progress(input_file, payload, "Host Header Injection")
     if not output:
@@ -170,6 +200,8 @@ def host_header_injection():
 def cloud_security_issues():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("cloudsecurity")
     output = run_scan_with_progress(input_file, payload, "Cloud Security Issues")
     if not output:
@@ -180,6 +212,8 @@ def cloud_security_issues():
 def web_cache_poisoning():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("webcachepoisoning")
     output = run_scan_with_progress(input_file, payload, "Web Cache Poisoning")
     if not output:
@@ -190,6 +224,8 @@ def web_cache_poisoning():
 def security_misconfigurations():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("securitymisconfig")
     output = run_scan_with_progress(input_file, payload, "Security Misconfigurations")
     if not output:
@@ -200,6 +236,8 @@ def security_misconfigurations():
 def hardcoded_credentials():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("hardcodedcredentials")
     output = run_scan_with_progress(input_file, payload, "Hardcoded Credentials")
     if not output:
@@ -239,6 +277,8 @@ def check_for_updates():
 def deserialization():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("deserialization")
     output = run_scan_with_progress(input_file, payload, "Deserialization")
     if not output:
@@ -249,6 +289,8 @@ def deserialization():
 def idor():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("idor")
     output = run_scan_with_progress(input_file, payload, "IDOR")
     if not output:
@@ -259,6 +301,8 @@ def idor():
 def race_condition():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("racecondition")
     output = run_scan_with_progress(input_file, payload, "Race Condition")
     if not output:
@@ -269,6 +313,8 @@ def race_condition():
 def websocket():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("websocket")
     output = run_scan_with_progress(input_file, payload, "WebSocket")
     if not output:
@@ -279,6 +325,8 @@ def websocket():
 def scan_all():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     payload = payloads("all")
     output = run_scan_with_progress(input_file, payload, "All")
     if not output:
@@ -289,6 +337,8 @@ def scan_all():
 def scan_all2():
     input_file = input(Fore.WHITE + "Enter the target list file: ")
     targets = target_list(input_file)
+    if targets is None:
+        return
     for file in glob.glob("prompts/*.txt"):
         payload = payloads(file.split("/")[-1].split(".")[0])
         output = run_scan_with_progress(input_file, payload, file.split("/")[-1].split(".")[0])
